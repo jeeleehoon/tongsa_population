@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고등학교 통합사회② - 인구 지표 & 게임 퀴즈 시뮬레이터</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .tab-btn.active {
+            background-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header Section -->
+    <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-500 text-white p-2.5 rounded-xl shadow-md">
+                    <i class="fa-solid fa-users-line text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-semibold tracking-wider text-blue-200 block">고등학교 통합사회② | 5. 미래와 지속가능한 삶</span>
+                    <h1 class="text-lg md:text-xl font-bold">인구 지표 & 게임 퀴즈 시뮬레이터</h1>
+                </div>
+            </div>
+            <div class="mt-2 sm:mt-0 flex items-center space-x-2 text-xs md:text-sm">
+                <span class="bg-indigo-800 px-3 py-1.5 rounded-full border border-indigo-700 flex items-center gap-1.5">
+                    <i class="fa-solid fa-book-open text-amber-300"></i> 교과서 p.128~131 연계
+                </span>
+            </div>
+        </div>
+        
+        <!-- Navigation Tabs -->
+        <nav class="bg-indigo-950 px-4 border-t border-indigo-800/50">
+            <div class="max-w-7xl mx-auto flex overflow-x-auto space-x-2 py-2 custom-scrollbar">
+                <button onclick="switchTab('concepts')" id="tab-concepts" class="tab-btn active px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-all duration-200 flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap"></i> 개념 & 피라미드 탐색
+                </button>
+                <button onclick="switchTab('calculator')" id="tab-calculator" class="tab-btn bg-indigo-900/60 text-indigo-200 hover:bg-indigo-800 px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-all duration-200 flex items-center gap-2">
+                    <i class="fa-solid fa-calculator"></i> 인구 지표 계산 실습기
+                </button>
+                <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn bg-indigo-900/60 text-indigo-200 hover:bg-indigo-800 px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-all duration-200 flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad"></i> 개념 스피드 퀴즈
+                </button>
+                <button onclick="switchTab('matching')" id="tab-matching" class="tab-btn bg-indigo-900/60 text-indigo-200 hover:bg-indigo-800 px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-all duration-200 flex items-center gap-2">
+                    <i class="fa-solid fa-earth-americas"></i> 국가 매칭 게임
+                </button>
+                <button onclick="switchTab('tfr')" id="tab-tfr" class="tab-btn bg-indigo-900/60 text-indigo-200 hover:bg-indigo-800 px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-all duration-200 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-column"></i> 대륙별 출산율 비교
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto w-full px-4 py-6 flex-grow">
+
+        <!-- ================= PAGE 1: 개념 & 인구 피라미드 탐색 ================= -->
+        <section id="view-concepts" class="space-y-6">
+            <!-- Alert Banner -->
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r-xl shadow-sm flex items-start space-x-3">
+                <i class="fa-solid fa-circle-info text-blue-600 text-xl mt-0.5"></i>
+                <div class="text-sm text-blue-900">
+                    <p class="font-bold">세계의 인구 구조 학습 핵심 포인트</p>
+                    <p class="mt-0.5">선진국(예: 독일)과 개발도상국(예: 니제르)의 연령별·성별 인구 구조 차이와 핵심 인구 지표(인구 부양비, 노령화 지수, 성비, 중위 연령)를 비교 탐색해보세요.</p>
+                </div>
+            </div>
+
+            <!-- Country Selection Bar -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-area text-indigo-600"></i> 국가별 인구 피라미드 분석
+                        </h2>
+                        <p class="text-xs text-slate-500">교과서 수록 국가 및 비교용 인구 데이터 선택</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2" id="country-buttons">
+                        <!-- JS injected country buttons -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Interactive Pyramid & Stats -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Pyramid Canvas Card -->
+                <div class="lg:col-span-7 bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 pb-2 border-b border-slate-100">
+                            <div>
+                                <span id="pyramid-country-badge" class="px-2.5 py-1 text-xs font-bold rounded-full bg-indigo-100 text-indigo-700">선진국</span>
+                                <h3 id="pyramid-title" class="text-xl font-black text-slate-800 mt-1">독일 (Germany) 인구 피라미드</h3>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-slate-400 block">중위 연령</span>
+                                <span id="pyramid-median-age" class="text-lg font-extrabold text-indigo-600">44.9세</span>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Holder -->
+                        <div class="relative w-full h-[360px] bg-slate-50 rounded-xl p-2 border border-slate-100 flex justify-center items-center">
+                            <canvas id="pyramidCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-xl">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 bg-blue-500 rounded-sm inline-block"></span>
+                            <span class="text-slate-600">남성 인구 (백만 명/비율)</span>
+                        </div>
+                        <div class="flex items-center space-x-2 justify-end">
+                            <span class="w-3 h-3 bg-rose-500 rounded-sm inline-block"></span>
+                            <span class="text-slate-600">여성 인구 (백만 명/비율)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Metrics Card -->
+                <div class="lg:col-span-5 space-y-4">
+                    <!-- Dynamic Country Summary Card -->
+                    <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white p-5 rounded-2xl shadow-md space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold text-base text-indigo-200 flex items-center gap-2">
+                                <i class="fa-solid fa-sliders"></i> <span id="info-country-name">독일</span> 지표 요약
+                            </h4>
+                            <span id="info-tfr" class="bg-amber-400 text-slate-900 text-xs font-black px-2.5 py-1 rounded-full">합계 출산율 1.48명</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 text-center pt-2">
+                            <div class="bg-white/10 p-2.5 rounded-xl backdrop-blur-sm">
+                                <span class="text-xs text-indigo-200 block">유소년층 (0~14세)</span>
+                                <span id="stat-youth" class="text-lg font-black text-white">13.8%</span>
+                            </div>
+                            <div class="bg-white/10 p-2.5 rounded-xl backdrop-blur-sm">
+                                <span class="text-xs text-indigo-200 block">노년층 (65세 이상)</span>
+                                <span id="stat-elderly" class="text-lg font-black text-amber-300">22.1%</span>
+                            </div>
+                            <div class="bg-white/10 p-2.5 rounded-xl backdrop-blur-sm">
+                                <span class="text-xs text-indigo-200 block">노령화 지수</span>
+                                <span id="stat-aging-idx" class="text-lg font-black text-emerald-300">160.1</span>
+                            </div>
+                            <div class="bg-white/10 p-2.5 rounded-xl backdrop-blur-sm">
+                                <span class="text-xs text-indigo-200 block">인구 부양비</span>
+                                <span id="stat-dep-ratio" class="text-lg font-black text-sky-300">56.0</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 text-xs text-indigo-200 leading-relaxed border-t border-white/10">
+                            <p id="info-description">
+                                선진국은 유소년층 비율이 낮고 노년층 비율이 높아 노년부양비, 중위 연령, 노령화 지수가 높게 나타납니다. 의료 기술 발달로 기대 수명이 길며 여성의 사회 진출 활발 등으로 출생률이 낮습니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Glossary Quick Cards -->
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+                        <h4 class="font-bold text-sm text-slate-800 flex items-center gap-2 border-b pb-2">
+                            <i class="fa-solid fa-book text-blue-600"></i> 필수 개념 정복
+                        </h4>
+                        <div class="space-y-2 text-xs max-h-[220px] overflow-y-auto pr-1 custom-scrollbar">
+                            <div class="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 transition border border-slate-100">
+                                <span class="font-bold text-blue-700 block mb-0.5">중위 연령</span>
+                                전체 인구를 연령 순서로 세웠을 때 정확히 한가운데 있는 사람의 나이입니다.
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 transition border border-slate-100">
+                                <span class="font-bold text-blue-700 block mb-0.5">합계 출산율</span>
+                                한 여성이 가임 기간(15~49세) 동안 낳을 것으로 예상되는 평균 출생아 수입니다.
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 transition border border-slate-100">
+                                <span class="font-bold text-blue-700 block mb-0.5">성비</span>
+                                여성 100명당 남성의 수입니다. 성비가 100보다 크면 남초 현상, 100보다 작으면 여초 현상이 나타납니다.
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 transition border border-slate-100">
+                                <span class="font-bold text-blue-700 block mb-0.5">기대 수명</span>
+                                0세 출생자가 앞으로 생존할 것으로 기대되는 평균 생존 연수입니다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 2: 인구 지표 계산 실습기 ================= -->
+        <section id="view-calculator" class="hidden space-y-6">
+            <div class="bg-emerald-50 border-l-4 border-emerald-600 p-4 rounded-r-xl shadow-sm flex items-start space-x-3">
+                <i class="fa-solid fa-calculator text-emerald-600 text-xl mt-0.5"></i>
+                <div class="text-sm text-emerald-900">
+                    <p class="font-bold">인구 부양비 & 노령화 지수 실시간 산출 실습기</p>
+                    <p class="mt-0.5">유소년층(0~14세), 청장년층(15~64세), 노년층(65세 이상) 인구 조절 슬라이더를 움직여 오른쪽 공식 카드의 부양비와 노령화 지수 변화를 확인해보세요.</p>
+                </div>
+            </div>
+
+            <!-- Total Population & Preset Header Card -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <!-- Total Pop Display -->
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-indigo-100 text-indigo-700 p-3 rounded-xl font-bold">
+                            <i class="fa-solid fa-users text-2xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-500 font-bold block">선택 국가 총인구 (유소년 + 청장년 + 노년)</span>
+                            <div class="flex items-baseline gap-2">
+                                <span id="calc-total-pop-display" class="text-2xl font-black text-indigo-700">8,400 만 명</span>
+                                <span id="calc-total-pop-million" class="text-xs font-semibold text-slate-500">(84.0 백만 명)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preset Selector Buttons -->
+                    <div class="flex flex-wrap items-center gap-2" id="calc-preset-btns">
+                        <button onclick="setCalcPreset('germany')" id="btn-preset-germany" class="px-3 py-1.5 text-xs font-bold bg-indigo-600 text-white rounded-xl shadow-sm transition">선진국(독일)</button>
+                        <button onclick="setCalcPreset('niger')" id="btn-preset-niger" class="px-3 py-1.5 text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl transition">개발도상국(니제르)</button>
+                        <button onclick="setCalcPreset('korea')" id="btn-preset-korea" class="px-3 py-1.5 text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl transition">대한민국</button>
+                        <button onclick="setCalcPreset('custom')" id="btn-preset-custom" class="px-3 py-1.5 text-xs font-bold bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 rounded-xl transition">가상 국가 제작</button>
+                    </div>
+                </div>
+
+                <!-- Custom Population Mode Bar (Appears when '가상 국가 제작' is selected) -->
+                <div id="custom-pop-controls" class="hidden bg-amber-50/60 p-4 rounded-xl border border-amber-200 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-amber-600 text-base"></i>
+                        <span class="text-xs font-bold text-amber-900">가상 국가 총인구 설정 (100만 명 단위):</span>
+                        <div class="flex items-center space-x-1">
+                            <input type="number" id="custom-unit-input" value="50" min="1" max="500" step="1" onchange="onCustomUnitInputChange()" class="w-20 px-2 py-1 text-xs border border-amber-400 rounded-lg text-center font-bold text-amber-900 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white">
+                            <span class="text-xs font-bold text-amber-800">백만 명 (입력값 × 100만 명)</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="addCustomPopUnits(1)" class="px-3 py-1 text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg transition shadow-sm">+100만</button>
+                        <button onclick="addCustomPopUnits(5)" class="px-3 py-1 text-xs bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg transition shadow-sm">+500만</button>
+                        <button onclick="resetCustomPopUnits()" class="px-3 py-1 text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg transition">초기화</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sliders & Real-Time Calculation Cards Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left: Sliders & Controls -->
+                <div class="lg:col-span-6 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                    <div class="flex justify-between items-center border-b pb-3">
+                        <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-indigo-600"></i> 연령대별 인구 수 조절
+                        </h3>
+                        <span class="text-xs text-slate-400 font-semibold">(단위: 만 명)</span>
+                    </div>
+
+                    <!-- Youth Slider -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-sm font-semibold">
+                            <span class="text-sky-600 flex items-center gap-1.5"><i class="fa-solid fa-child"></i> 유소년층 (0~14세)</span>
+                            <span id="calc-youth-val" class="font-extrabold text-base text-slate-800">1,150 만 명</span>
+                        </div>
+                        <input type="range" id="slider-youth" min="0" max="4000" value="1150" oninput="updateCalculator()" class="w-full accent-sky-500 cursor-pointer">
+                    </div>
+
+                    <!-- Adult Slider -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-sm font-semibold">
+                            <span class="text-indigo-600 flex items-center gap-1.5"><i class="fa-solid fa-user-large"></i> 청장년층 (15~64세)</span>
+                            <span id="calc-adult-val" class="font-extrabold text-base text-slate-800">5,300 만 명</span>
+                        </div>
+                        <input type="range" id="slider-adult" min="10" max="8000" value="5300" oninput="updateCalculator()" class="w-full accent-indigo-600 cursor-pointer">
+                        <p class="text-xs text-slate-400">* 청장년층은 부양의 주체가 되는 경제활동 생산 연령 인구입니다.</p>
+                    </div>
+
+                    <!-- Elderly Slider -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-sm font-semibold">
+                            <span class="text-amber-600 flex items-center gap-1.5"><i class="fa-solid fa-cane"></i> 노년층 (65세 이상)</span>
+                            <span id="calc-elderly-val" class="font-extrabold text-base text-slate-800">1,950 만 명</span>
+                        </div>
+                        <input type="range" id="slider-elderly" min="0" max="4000" value="1950" oninput="updateCalculator()" class="w-full accent-amber-500 cursor-pointer">
+                    </div>
+
+                    <!-- Age Structure Bar Breakdown -->
+                    <div class="space-y-1.5 pt-2">
+                        <span class="text-xs text-slate-500 font-semibold block">연령별 인구 구성 비율 %</span>
+                        <div class="w-full h-7 rounded-xl overflow-hidden flex bg-slate-100 shadow-inner p-0.5">
+                            <div id="bar-youth" class="bg-sky-500 text-[10px] text-white flex items-center justify-center font-bold transition-all duration-150 rounded-l-lg" style="width: 13.7%;">13.7%</div>
+                            <div id="bar-adult" class="bg-indigo-600 text-[10px] text-white flex items-center justify-center font-bold transition-all duration-150" style="width: 63.1%;">63.1%</div>
+                            <div id="bar-elderly" class="bg-amber-500 text-[10px] text-white flex items-center justify-center font-bold transition-all duration-150 rounded-r-lg" style="width: 23.2%;">23.2%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Formula Cards (Matches image_fc319d.png design) -->
+                <div class="lg:col-span-6 space-y-4">
+                    
+                    <!-- Card 1: 유소년 부양비 -->
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 transition-all hover:shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold text-sky-700 bg-sky-100 px-3 py-1 rounded-full">유소년 부양비</span>
+                            <span id="calc-res-youth-dep" class="text-3xl font-black text-sky-600">21.7</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs md:text-sm text-slate-600 font-semibold pt-2 border-t border-slate-100">
+                            <span class="text-slate-400 font-medium">(유소년층 / 청장년층) × 100</span>
+                            <span id="calc-exp-youth" class="font-bold text-slate-800 font-mono">(1,150 / 5,300) × 100</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: 노년 부양비 -->
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 transition-all hover:shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full">노년 부양비</span>
+                            <span id="calc-res-elderly-dep" class="text-3xl font-black text-amber-600">36.8</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs md:text-sm text-slate-600 font-semibold pt-2 border-t border-slate-100">
+                            <span class="text-slate-400 font-medium">(노년층 / 청장년층) × 100</span>
+                            <span id="calc-exp-elderly" class="font-bold text-slate-800 font-mono">(1,950 / 5,300) × 100</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: 총 인구 부양비 (Dark Navy Card) -->
+                    <div class="bg-indigo-950 text-white p-5 rounded-2xl shadow-md transition-all hover:shadow-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold text-indigo-200 bg-indigo-800/80 px-3 py-1 rounded-full">총 인구 부양비</span>
+                            <span id="calc-res-total-dep" class="text-3xl font-black text-white">58.5</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs md:text-sm text-indigo-200 pt-2 border-t border-indigo-800/60">
+                            <span class="text-indigo-300 font-medium">유소년 부양비 + 노년 부양비</span>
+                            <span id="calc-exp-total" class="font-bold text-amber-300 font-mono">21.7 + 36.8</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: 노령화 지수 (Dark Emerald Card) -->
+                    <div class="bg-emerald-950 text-white p-5 rounded-2xl shadow-md transition-all hover:shadow-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold text-emerald-200 bg-emerald-800/80 px-3 py-1 rounded-full">노령화 지수</span>
+                            <span id="calc-res-aging-idx" class="text-3xl font-black text-emerald-400">169.6</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs md:text-sm text-emerald-200 pt-2 border-t border-emerald-800/60">
+                            <span class="text-emerald-300 font-medium">(노년층 / 유소년층) × 100</span>
+                            <span id="calc-exp-aging" class="font-bold text-white font-mono">(1,950 / 1,150) × 100</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 3: 개념 스피드 퀴즈 ================= -->
+        <section id="view-quiz" class="hidden space-y-6">
+            <!-- Quiz Header / Scoreboard -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad text-indigo-600"></i> 통합사회 인구 개념 퀴즈 서바이벌
+                    </h2>
+                    <p class="text-xs text-slate-500">교과서 핵심 개념 및 지표 산출 공식을 완벽히 마스터해보세요!</p>
+                </div>
+                
+                <div class="flex items-center space-x-4 text-sm">
+                    <div class="bg-slate-100 px-3 py-1.5 rounded-xl text-center">
+                        <span class="text-xs text-slate-500 block">진행 상황</span>
+                        <span id="quiz-progress" class="font-extrabold text-indigo-600">1 / 6</span>
+                    </div>
+                    <div class="bg-slate-100 px-3 py-1.5 rounded-xl text-center">
+                        <span class="text-xs text-slate-500 block">현재 점수</span>
+                        <span id="quiz-score" class="font-extrabold text-emerald-600">0 점</span>
+                    </div>
+                    <div class="bg-slate-100 px-3 py-1.5 rounded-xl text-center">
+                        <span class="text-xs text-slate-500 block">콤보</span>
+                        <span id="quiz-combo" class="font-extrabold text-amber-500">0 🔥</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Main Card Container -->
+            <div id="quiz-card-container" class="bg-white p-6 md:p-8 rounded-2xl shadow-md border border-slate-200 min-h-[380px] flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="quiz-category" class="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded-full">인구 지표 공식</span>
+                        <span id="quiz-timer" class="text-xs font-bold text-slate-400"><i class="fa-regular fa-clock"></i> 제한시간 없음</span>
+                    </div>
+                    <h3 id="quiz-question-text" class="text-lg md:text-xl font-bold text-slate-800 leading-relaxed mb-6">
+                        질문이 로딩 중입니다...
+                    </h3>
+
+                    <!-- Choice Options Grid -->
+                    <div id="quiz-options" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                        <!-- Dynamic Buttons -->
+                    </div>
+                </div>
+
+                <!-- Feedback & Explanation Box -->
+                <div id="quiz-feedback" class="hidden mt-6 p-4 rounded-xl text-sm space-y-2 transition-all">
+                    <div class="font-bold flex items-center gap-2" id="quiz-feedback-title"></div>
+                    <p id="quiz-feedback-exp" class="text-xs md:text-sm text-slate-700 leading-relaxed"></p>
+                    <button onclick="nextQuizQuestion()" class="mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2 rounded-lg text-xs transition">
+                        다음 문제로 이동 <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Finish Banner -->
+            <div id="quiz-finish-modal" class="hidden bg-gradient-to-br from-indigo-900 to-slate-900 text-white p-8 rounded-2xl shadow-2xl text-center space-y-5">
+                <div class="w-16 h-16 bg-amber-400 text-slate-900 rounded-full flex items-center justify-center text-3xl mx-auto shadow-lg">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h3 class="text-2xl font-black">퀴즈 완주 성공!</h3>
+                <p id="quiz-final-score-text" class="text-lg text-indigo-200">최종 점수: 80점 / 100점</p>
+                <div id="quiz-rank-badge" class="inline-block bg-indigo-800 px-4 py-2 rounded-xl text-amber-300 font-bold text-sm border border-indigo-700">
+                    인구 지표 전문가 등급
+                </div>
+                <div>
+                    <button onclick="resetQuiz()" class="bg-amber-400 hover:bg-amber-300 text-slate-900 font-black px-6 py-3 rounded-xl shadow-md transition transform active:scale-95">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> 다시 도전하기
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 4: 국가 피라미드 매칭 게임 ================= -->
+        <section id="view-matching" class="hidden space-y-6">
+            <div class="bg-amber-50 border-l-4 border-amber-600 p-4 rounded-r-xl shadow-sm flex items-start space-x-3">
+                <i class="fa-solid fa-puzzle-piece text-amber-600 text-xl mt-0.5"></i>
+                <div class="text-sm text-amber-900">
+                    <p class="font-bold">인구 피라미드 형태 & 국가 매칭 게임</p>
+                    <p class="mt-0.5">화면에 제시된 인구 피라미드의 특성과 지표를 보고 해당 인구 구조가 어떤 국가(선진국/개발도상국 등)를 나타내는지 정답을 맞춰보세요.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Pyramid Preview Target -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full">문제 카드</span>
+                            <span id="matching-stage" class="text-xs text-slate-500 font-bold">Stage 1 / 3</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">이 피라미드는 어떤 유형의 국가일까요?</h3>
+
+                        <div class="relative w-full h-[320px] bg-slate-50 rounded-xl p-2 border border-slate-100 flex justify-center items-center">
+                            <canvas id="matchingCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs bg-slate-50 p-3 rounded-xl">
+                        <div>
+                            <span class="text-slate-400 block">중위 연령</span>
+                            <span id="match-hint-median" class="font-bold text-indigo-600">14.5세</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block">합계 출산율</span>
+                            <span id="match-hint-tfr" class="font-bold text-rose-600">6.71명</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block">유소년 비율</span>
+                            <span id="match-hint-youth" class="font-bold text-emerald-600">높음 (49.2%)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Answer Selector & Explanation -->
+                <div class="lg:col-span-5 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-base mb-4 pb-2 border-b">정답을 선택하세요</h4>
+                        <div id="matching-choices" class="space-y-3">
+                            <!-- Dynamic country matching choice buttons -->
+                        </div>
+                    </div>
+
+                    <div id="matching-feedback" class="hidden mt-4 p-4 rounded-xl text-xs space-y-2">
+                        <p id="matching-feedback-txt" class="leading-relaxed"></p>
+                        <button onclick="nextMatchingStage()" class="bg-slate-800 text-white px-4 py-2 rounded-lg font-bold">다음 문제</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 5: 대륙별 출산율 비교 ================= -->
+        <section id="view-tfr" class="hidden space-y-6">
+            <div class="bg-indigo-50 border-l-4 border-indigo-600 p-4 rounded-r-xl shadow-sm flex items-start space-x-3">
+                <i class="fa-solid fa-chart-line text-indigo-600 text-xl mt-0.5"></i>
+                <div class="text-sm text-indigo-900">
+                    <p class="font-bold">대륙별 연평균 합계 출산율 변화 (1971년 vs 2021년)</p>
+                    <p class="mt-0.5">교과서 p.129 자료 기준: 지난 50년간 전 세계 및 대륙별 합계 출산율 변화 추이를 비교해보세요.</p>
+                </div>
+            </div>
+
+            <!-- TFR Chart Container -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                <div class="flex justify-between items-center border-b pb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">대륙별 합계 출산율 비교 그래프 (명)</h3>
+                        <p class="text-xs text-slate-500">※ 한 여성이 가임 기간(15~49세) 동안 낳을 것으로 예상되는 평균 출생아 수 (UN, 2023)</p>
+                    </div>
+                </div>
+
+                <!-- Canvas Visualizer for TFR -->
+                <div class="relative w-full h-[380px] bg-slate-50 rounded-xl p-3 border border-slate-100 flex justify-center items-center">
+                    <canvas id="tfrCanvas" class="w-full h-full"></canvas>
+                </div>
+
+                <!-- TFR Table Analysis -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="bg-indigo-900 text-white font-semibold">
+                                <th class="p-3 rounded-tl-lg">구분</th>
+                                <th class="p-3">세계 평균</th>
+                                <th class="p-3">아프리카</th>
+                                <th class="p-3">아시아</th>
+                                <th class="p-3">유럽</th>
+                                <th class="p-3">라틴아메리카</th>
+                                <th class="p-3">앵글로아메리카</th>
+                                <th class="p-3 rounded-tr-lg">오세아니아</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 bg-slate-50">
+                            <tr>
+                                <td class="p-3 font-bold text-slate-700">1971년</td>
+                                <td class="p-3 font-semibold text-indigo-600">4.68명</td>
+                                <td class="p-3">6.71명</td>
+                                <td class="p-3">5.35명</td>
+                                <td class="p-3">2.27명</td>
+                                <td class="p-3">5.09명</td>
+                                <td class="p-3">2.25명</td>
+                                <td class="p-3">3.59명</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-700">2021년</td>
+                                <td class="p-3 font-semibold text-indigo-600">2.32명</td>
+                                <td class="p-3 text-rose-600 font-bold">4.31명</td>
+                                <td class="p-3">1.94명</td>
+                                <td class="p-3 text-blue-600 font-bold">1.48명</td>
+                                <td class="p-3">1.86명</td>
+                                <td class="p-3">1.64명</td>
+                                <td class="p-3">2.15명</td>
+                            </tr>
+                            <tr class="bg-amber-50 font-bold text-amber-900">
+                                <td class="p-3">감소율/특징</td>
+                                <td class="p-3">전세계적 감소</td>
+                                <td class="p-3">최고 출산율 유지</td>
+                                <td class="p-3">급격한 감소세</td>
+                                <td class="p-3">최저 수준 출산율</td>
+                                <td class="p-3">대폭 감소</td>
+                                <td class="p-3">저출산 정체</td>
+                                <td class="p-3">완만한 감소</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 text-xs text-center border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p class="font-semibold text-slate-300">고등학교 통합사회② 교과 탐구 학습 시뮬레이터</p>
+            <p>본 자료는 2022 개정 교육과정 및 UN 인구 데이터 통계를 기반으로 제작되었습니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ================= DATASETS ================= */
+        const countryData = {
+            germany: {
+                name: "독일 (Germany)",
+                badge: "선진국 (유럽)",
+                badgeBg: "bg-indigo-100 text-indigo-800",
+                tfr: 1.48,
+                medianAge: 44.9,
+                youthRatio: "13.8%",
+                elderlyRatio: "22.1%",
+                agingIdx: "160.1",
+                depRatio: "56.0",
+                desc: "독일은 선진국의 대표적 사례로, 생활 수준과 의료 기술 발달로 기대 수명이 길지만 높은 여성 사회 진출과 가치관 변화로 출생률이 낮아 노년부양비, 중위 연령, 노령화 지수가 높게 나타납니다.",
+                males: [0.35, 0.38, 0.42, 0.48, 0.58, 0.65, 0.72, 0.62, 0.50, 0.40],
+                females: [0.33, 0.36, 0.40, 0.45, 0.55, 0.63, 0.75, 0.68, 0.58, 0.52]
+            },
+            niger: {
+                name: "니제르 (Niger)",
+                badge: "개발도상국 (아프리카)",
+                badgeBg: "bg-amber-100 text-amber-800",
+                tfr: 6.71,
+                medianAge: 14.5,
+                youthRatio: "49.2%",
+                elderlyRatio: "2.6%",
+                agingIdx: "5.3",
+                depRatio: "107.5",
+                desc: "니제르는 개발도상국의 대표 사례로, 1차 산업 비율이 높고 가족 계획 미흡으로 출생률이 높아 유소년층 비율이 매우 높습니다. 반면 의료 기술 미흡으로 기대 수명이 상대적으로 짧아 노년층 비율이 낮습니다.",
+                males: [0.95, 0.82, 0.68, 0.52, 0.40, 0.28, 0.18, 0.10, 0.05, 0.02],
+                females: [0.92, 0.80, 0.66, 0.51, 0.39, 0.27, 0.17, 0.09, 0.05, 0.02]
+            },
+            korea: {
+                name: "대한민국 (South Korea)",
+                badge: "초고령 사회 진행",
+                badgeBg: "bg-rose-100 text-rose-800",
+                tfr: 0.72,
+                medianAge: 45.6,
+                youthRatio: "11.1%",
+                elderlyRatio: "19.0%",
+                agingIdx: "171.4",
+                depRatio: "43.8",
+                desc: "대한민국은 전 세계에서 가장 빠른 속도로 저출생·고령화가 진행되는 국가로, 초저출산율과 높은 기대수명으로 인해 역항아리형 인구 피라미드 구조를 나타내고 있습니다.",
+                males: [0.22, 0.30, 0.48, 0.62, 0.78, 0.85, 0.70, 0.52, 0.30, 0.12],
+                females: [0.21, 0.28, 0.45, 0.58, 0.74, 0.82, 0.72, 0.58, 0.38, 0.20]
+            }
+        };
+
+        const quizData = [
+            {
+                category: "인구 용어 정의",
+                question: "전체 인구를 연령 순서로 길게 세웠을 때, 정확히 한가운데 있는 사람의 나이를 의미하는 용어는 무엇일까요?",
+                options: ["기대 수명", "중위 연령", "노령화 지수", "합계 출산율"],
+                answer: 1,
+                explanation: "중위 연령은 전체 인구를 나이 순서대로 정렬했을 때 중간 위치에 있는 사람의 연령입니다. (독일 44.9세 vs 니제르 14.5세)"
+            },
+            {
+                category: "인구 지표 산출 공식",
+                question: "유소년층 인구에 대한 노년층 인구의 비율로, '(노년층 인구 / 유소년층 인구) × 100' 공식으로 구하는 지표는?",
+                options: ["유소년 부양비", "노년 부양비", "노령화 지수", "성비"],
+                answer: 2,
+                explanation: "노령화 지수는 유소년층(0~14세) 대비 노년층(65세 이상)의 크기를 비교하는 지표입니다."
+            },
+            {
+                category: "선진국 vs 개발도상국 비교",
+                question: "개발도상국(예: 니제르)의 인구 구조적 특징으로 가장 올바른 설명은 무엇일까요?",
+                options: [
+                    "노년층 비율이 높아 노년 부양비가 매우 높다.",
+                    "유소년층 비율이 높아 유소년 부양비가 높고 중위 연령이 낮다.",
+                    "기대 수명이 매우 길고 합계 출산율이 낮다.",
+                    "노령화 지수가 선진국보다 현저히 높게 나타난다."
+                ],
+                answer: 1,
+                explanation: "개발도상국은 높은 출생률로 유소년층 인구 비율이 높아 유소년 부양비가 높고 중위 연령이 매우 낮습니다."
+            },
+            {
+                category: "성비",
+                question: "성비에 대한 설명 중 올바르지 않은 문장은 무엇일까요?",
+                options: [
+                    "성비는 여성 100명당 남성의 수를 의미합니다.",
+                    "성비가 100보다 크면 남초 현상이라고 부릅니다.",
+                    "노년층으로 갈수록 남성의 긴 기대수명으로 남초 현상이 심해집니다.",
+                    "성비가 100보다 작으면 여초 현상이 일어납니다."
+                ],
+                answer: 2,
+                explanation: "여성이 남성보다 평균 수명이 더 길기 때문에 노년층으로 갈수록 여초 현상(성비 < 100)이 나타납니다."
+            },
+            {
+                category: "합계 출산율 변화",
+                question: "1971년 대비 2021년 대륙별 연평균 합계 출산율 통계에서 가장 높은 출산율(4.31명)을 유지하고 있는 대륙은 어디일까요?",
+                options: ["아시아", "아프리카", "유럽", "라틴아메리카"],
+                answer: 1,
+                explanation: "아프리카 대륙은 1971년 6.71명에서 2021년 4.31명으로 감소했으나 여전히 전 세계에서 가장 높은 합계 출산율을 기록하고 있습니다."
+            },
+            {
+                category: "인구 부양비 계산",
+                question: "어느 국가의 유소년층이 200명, 청장년층이 600명, 노년층이 200명일 때 '총 인구 부양비'는 얼마일까요?",
+                options: ["33.3", "50.0", "66.7", "100.0"],
+                answer: 2,
+                explanation: "유소년부양비=(200/600)*100 = 33.3, 노년부양비=(200/600)*100 = 33.3. 총 인구 부양비 = 33.3 + 33.3 = 66.7 입니다."
+            }
+        ];
+
+        /* ================= STATE VARIABLES ================= */
+        let currentCountryKey = 'germany';
+        let currentCalcMode = 'germany';
+        let currentQuizIdx = 0;
+        let quizScore = 0;
+        let quizCombo = 0;
+        let matchStage = 0;
+
+        const matchQuestions = [
+            { countryKey: 'niger', type: "개발도상국(니제르형)", correctIdx: 0, choices: ["개발도상국(니제르형)", "선진국(독일형)", "초고령사회(한국형)"] },
+            { countryKey: 'germany', type: "선진국(독일형)", correctIdx: 1, choices: ["개발도상국(니제르형)", "선진국(독일형)", "초고령사회(한국형)"] },
+            { countryKey: 'korea', type: "초고령사회(한국형)", correctIdx: 2, choices: ["개발도상국(니제르형)", "선진국(독일형)", "초고령사회(한국형)"] }
+        ];
+
+        /* ================= INITIALIZATION & TAB SWITCHING ================= */
+        window.onload = function() {
+            renderCountryButtons();
+            loadPyramidData('germany');
+            setCalcPreset('germany');
+            loadQuizQuestion();
+            loadMatchingStage();
+            drawTFRChart();
+
+            window.addEventListener('resize', () => {
+                drawPyramidCanvas(currentCountryKey);
+                drawMatchingCanvas();
+                drawTFRChart();
+            });
+        };
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('bg-indigo-900/60', 'text-indigo-200');
+            });
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.remove('bg-indigo-900/60', 'text-indigo-200');
+
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+
+            if (tabId === 'concepts') drawPyramidCanvas(currentCountryKey);
+            if (tabId === 'matching') drawMatchingCanvas();
+            if (tabId === 'tfr') drawTFRChart();
+        }
+
+        /* ================= PAGE 1: PYRAMID & DATA EXPLORER ================= */
+        function renderCountryButtons() {
+            const container = document.getElementById('country-buttons');
+            container.innerHTML = Object.keys(countryData).map(key => {
+                const c = countryData[key];
+                return `
+                    <button onclick="loadPyramidData('${key}')" id="cbtn-${key}" class="px-3 py-1.5 rounded-xl text-xs font-bold transition border ${key === currentCountryKey ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'}">
+                        ${c.name.split(' ')[0]}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function loadPyramidData(key) {
+            currentCountryKey = key;
+            renderCountryButtons();
+
+            const data = countryData[key];
+            document.getElementById('pyramid-country-badge').className = `px-2.5 py-1 text-xs font-bold rounded-full ${data.badgeBg}`;
+            document.getElementById('pyramid-country-badge').innerText = data.badge;
+            document.getElementById('pyramid-title').innerText = `${data.name} 인구 피라미드`;
+            document.getElementById('pyramid-median-age').innerText = `${data.medianAge}세`;
+
+            document.getElementById('info-country-name').innerText = data.name.split(' ')[0];
+            document.getElementById('info-tfr').innerText = `합계 출산율 ${data.tfr}명`;
+            document.getElementById('stat-youth').innerText = data.youthRatio;
+            document.getElementById('stat-elderly').innerText = data.elderlyRatio;
+            document.getElementById('stat-aging-idx').innerText = data.agingIdx;
+            document.getElementById('stat-dep-ratio').innerText = data.depRatio;
+            document.getElementById('info-description').innerText = data.desc;
+
+            drawPyramidCanvas(key);
+        }
+
+        function drawPyramidCanvas(key) {
+            const canvas = document.getElementById('pyramidCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const width = rect.width;
+            const height = rect.height;
+            const data = countryData[key];
+
+            ctx.clearRect(0, 0, width, height);
+
+            const ageLabels = ["0-9세", "10-19세", "20-29세", "30-39세", "40-49세", "50-59세", "60-69세", "70-79세", "80-89세", "90세+"];
+            const barsCount = ageLabels.length;
+            const centerY = height - 30;
+            const barHeight = (height - 60) / barsCount;
+            const centerX = width / 2;
+            const maxVal = 1.0;
+
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(centerX, 20);
+            ctx.lineTo(centerX, height - 30);
+            ctx.stroke();
+
+            for (let i = 0; i < barsCount; i++) {
+                const y = centerY - (i + 1) * barHeight;
+                const mWidth = (data.males[i] / maxVal) * (centerX - 50);
+                const fWidth = (data.females[i] / maxVal) * (centerX - 50);
+
+                ctx.fillStyle = "#3b82f6";
+                ctx.fillRect(centerX - mWidth, y + 2, mWidth, barHeight - 4);
+
+                ctx.fillStyle = "#f43f5e";
+                ctx.fillRect(centerX, y + 2, fWidth, barHeight - 4);
+
+                ctx.fillStyle = "#64748b";
+                ctx.font = "10px Noto Sans KR";
+                ctx.textAlign = "center";
+                if (i % 2 === 0) {
+                    ctx.fillText(ageLabels[i], centerX, y + barHeight / 1.4);
+                }
+            }
+
+            ctx.fillStyle = "#475569";
+            ctx.font = "bold 11px Noto Sans KR";
+            ctx.textAlign = "right";
+            ctx.fillText("◄ 남성 인구", centerX - 60, height - 10);
+            ctx.textAlign = "left";
+            ctx.fillText("여성 인구 ►", centerX + 60, height - 10);
+        }
+
+        /* ================= PAGE 2: INTERACTIVE CALCULATOR ================= */
+        function updateCalculator() {
+            const youth = parseInt(document.getElementById('slider-youth').value) || 0;
+            const adult = parseInt(document.getElementById('slider-adult').value) || 0;
+            const elderly = parseInt(document.getElementById('slider-elderly').value) || 0;
+
+            document.getElementById('calc-youth-val').innerText = `${youth.toLocaleString()} 만 명`;
+            document.getElementById('calc-adult-val').innerText = `${adult.toLocaleString()} 만 명`;
+            document.getElementById('calc-elderly-val').innerText = `${elderly.toLocaleString()} 만 명`;
+
+            const total = youth + adult + elderly;
+
+            // Display Total Population
+            document.getElementById('calc-total-pop-display').innerText = `${total.toLocaleString()} 만 명`;
+            document.getElementById('calc-total-pop-million').innerText = `(${(total / 100).toFixed(1)} 백만 명)`;
+
+            // Percentage Bars
+            const yPct = total > 0 ? ((youth / total) * 100).toFixed(1) : "0.0";
+            const aPct = total > 0 ? ((adult / total) * 100).toFixed(1) : "0.0";
+            const ePct = total > 0 ? ((elderly / total) * 100).toFixed(1) : "0.0";
+
+            document.getElementById('bar-youth').style.width = `${yPct}%`;
+            document.getElementById('bar-youth').innerText = `${yPct}%`;
+            document.getElementById('bar-adult').style.width = `${aPct}%`;
+            document.getElementById('bar-adult').innerText = `${aPct}%`;
+            document.getElementById('bar-elderly').style.width = `${ePct}%`;
+            document.getElementById('bar-elderly').innerText = `${ePct}%`;
+
+            // Calculate Formulas
+            const youthDep = adult > 0 ? ((youth / adult) * 100).toFixed(1) : "0.0";
+            const elderlyDep = adult > 0 ? ((elderly / adult) * 100).toFixed(1) : "0.0";
+            const totalDep = (parseFloat(youthDep) + parseFloat(elderlyDep)).toFixed(1);
+            const agingIdx = youth > 0 ? ((elderly / youth) * 100).toFixed(1) : "0.0";
+
+            // Update Right Formula Cards Real-time
+            document.getElementById('calc-res-youth-dep').innerText = youthDep;
+            document.getElementById('calc-exp-youth').innerText = `(${youth.toLocaleString()} / ${adult.toLocaleString()}) × 100`;
+
+            document.getElementById('calc-res-elderly-dep').innerText = elderlyDep;
+            document.getElementById('calc-exp-elderly').innerText = `(${elderly.toLocaleString()} / ${adult.toLocaleString()}) × 100`;
+
+            document.getElementById('calc-res-total-dep').innerText = totalDep;
+            document.getElementById('calc-exp-total').innerText = `${youthDep} + ${elderlyDep}`;
+
+            document.getElementById('calc-res-aging-idx').innerText = agingIdx;
+            document.getElementById('calc-exp-aging').innerText = `(${elderly.toLocaleString()} / ${youth.toLocaleString()}) × 100`;
+        }
+
+        function highlightCalcPresetBtn(mode) {
+            const btns = {
+                germany: 'btn-preset-germany',
+                niger: 'btn-preset-niger',
+                korea: 'btn-preset-korea',
+                custom: 'btn-preset-custom'
+            };
+            Object.keys(btns).forEach(key => {
+                const el = document.getElementById(btns[key]);
+                if (!el) return;
+                if (key === mode) {
+                    el.className = "px-3 py-1.5 text-xs font-bold bg-indigo-600 text-white rounded-xl shadow-sm transition";
+                } else if (key === 'custom') {
+                    el.className = "px-3 py-1.5 text-xs font-bold bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 rounded-xl transition";
+                } else {
+                    el.className = "px-3 py-1.5 text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl transition";
+                }
+            });
+        }
+
+        function setCalcPreset(preset) {
+            currentCalcMode = preset;
+            highlightCalcPresetBtn(preset);
+
+            const customControls = document.getElementById('custom-pop-controls');
+            const sliderYouth = document.getElementById('slider-youth');
+            const sliderAdult = document.getElementById('slider-adult');
+            const sliderElderly = document.getElementById('slider-elderly');
+
+            if (preset === 'germany') {
+                customControls.classList.add('hidden');
+                sliderYouth.max = 3000;
+                sliderAdult.max = 8000;
+                sliderElderly.max = 3000;
+                sliderYouth.value = 1150;
+                sliderAdult.value = 5300;
+                sliderElderly.value = 1950;
+            } else if (preset === 'niger') {
+                customControls.classList.add('hidden');
+                sliderYouth.max = 3000;
+                sliderAdult.max = 3000;
+                sliderElderly.max = 1000;
+                sliderYouth.value = 1225;
+                sliderAdult.value = 1200;
+                sliderElderly.value = 75;
+            } else if (preset === 'korea') {
+                customControls.classList.add('hidden');
+                sliderYouth.max = 2000;
+                sliderAdult.max = 5000;
+                sliderElderly.max = 2000;
+                sliderYouth.value = 570;
+                sliderAdult.value = 3600;
+                sliderElderly.value = 980;
+            } else if (preset === 'custom') {
+                customControls.classList.remove('hidden');
+                setCustomTotalUnits(50); // Default 50 백만 명 (5,000만 명)
+            }
+            updateCalculator();
+        }
+
+        /* Virtual Country (가상 국가 제작) Handlers */
+        function setCustomTotalUnits(units) {
+            units = Math.max(1, Math.min(500, units)); // 1 ~ 500 백만 명
+            document.getElementById('custom-unit-input').value = units;
+            
+            const totalMan = units * 100; // 백만 명 -> 만 명 변환
+            const sliderYouth = document.getElementById('slider-youth');
+            const sliderAdult = document.getElementById('slider-adult');
+            const sliderElderly = document.getElementById('slider-elderly');
+
+            sliderYouth.max = totalMan;
+            sliderAdult.max = totalMan;
+            sliderElderly.max = totalMan;
+
+            // Default proportion: 20% Youth, 64% Adult, 16% Elderly
+            sliderYouth.value = Math.round(totalMan * 0.20);
+            sliderAdult.value = Math.round(totalMan * 0.64);
+            sliderElderly.value = totalMan - Math.round(totalMan * 0.20) - Math.round(totalMan * 0.64);
+
+            updateCalculator();
+        }
+
+        function onCustomUnitInputChange() {
+            const units = parseInt(document.getElementById('custom-unit-input').value) || 50;
+            setCustomTotalUnits(units);
+        }
+
+        function addCustomPopUnits(addUnits) {
+            const currentUnits = parseInt(document.getElementById('custom-unit-input').value) || 50;
+            setCustomTotalUnits(currentUnits + addUnits);
+        }
+
+        function resetCustomPopUnits() {
+            setCustomTotalUnits(50);
+        }
+
+        /* ================= PAGE 3: SPEED QUIZ GAME ================= */
+        function loadQuizQuestion() {
+            if (currentQuizIdx >= quizData.length) {
+                showQuizFinishModal();
+                return;
+            }
+
+            const q = quizData[currentQuizIdx];
+            document.getElementById('quiz-progress').innerText = `${currentQuizIdx + 1} / ${quizData.length}`;
+            document.getElementById('quiz-category').innerText = q.category;
+            document.getElementById('quiz-question-text').innerText = `Q${currentQuizIdx + 1}. ${q.question}`;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = q.options.map((opt, idx) => `
+                <button onclick="checkQuizAnswer(${idx})" class="quiz-opt-btn p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/50 text-left text-xs md:text-sm font-semibold text-slate-700 transition flex items-center justify-between group">
+                    <span>${idx + 1}. ${opt}</span>
+                    <i class="fa-regular fa-circle text-slate-300 group-hover:text-indigo-500"></i>
+                </button>
+            `).join('');
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+        }
+
+        function checkQuizAnswer(selectedIdx) {
+            const q = quizData[currentQuizIdx];
+            const feedbackBox = document.getElementById('quiz-feedback');
+            const feedbackTitle = document.getElementById('quiz-feedback-title');
+            const feedbackExp = document.getElementById('quiz-feedback-exp');
+            const btns = document.querySelectorAll('.quiz-opt-btn');
+
+            btns.forEach(btn => btn.disabled = true);
+
+            if (selectedIdx === q.answer) {
+                quizScore += 15 + (quizCombo * 5);
+                quizCombo++;
+                feedbackBox.className = "mt-6 p-4 rounded-xl text-sm space-y-2 bg-emerald-50 border border-emerald-200 block";
+                feedbackTitle.className = "font-bold text-emerald-800 text-base flex items-center gap-2";
+                feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> 정답입니다! (+${15 + (quizCombo-1)*5}점)`;
+                btns[selectedIdx].classList.add('border-emerald-500', 'bg-emerald-100/50');
+            } else {
+                quizCombo = 0;
+                feedbackBox.className = "mt-6 p-4 rounded-xl text-sm space-y-2 bg-rose-50 border border-rose-200 block";
+                feedbackTitle.className = "font-bold text-rose-800 text-base flex items-center gap-2";
+                feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600"></i> 오답입니다!`;
+                btns[selectedIdx].classList.add('border-rose-500', 'bg-rose-100/50');
+                btns[q.answer].classList.add('border-emerald-500', 'bg-emerald-100/50');
+            }
+
+            document.getElementById('quiz-score').innerText = `${quizScore} 점`;
+            document.getElementById('quiz-combo').innerText = `${quizCombo} 🔥`;
+            feedbackExp.innerText = q.explanation;
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIdx++;
+            loadQuizQuestion();
+        }
+
+        function showQuizFinishModal() {
+            document.getElementById('quiz-card-container').classList.add('hidden');
+            document.getElementById('quiz-finish-modal').classList.remove('hidden');
+            document.getElementById('quiz-final-score-text').innerText = `최종 점수: ${quizScore} 점`;
+        }
+
+        function resetQuiz() {
+            currentQuizIdx = 0;
+            quizScore = 0;
+            quizCombo = 0;
+            document.getElementById('quiz-score').innerText = "0 점";
+            document.getElementById('quiz-combo').innerText = "0 🔥";
+            document.getElementById('quiz-finish-modal').classList.add('hidden');
+            document.getElementById('quiz-card-container').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+
+        /* ================= PAGE 4: MATCHING GAME ================= */
+        function loadMatchingStage() {
+            if (matchStage >= matchQuestions.length) matchStage = 0;
+
+            const q = matchQuestions[matchStage];
+            const cData = countryData[q.countryKey];
+
+            document.getElementById('matching-stage').innerText = `Stage ${matchStage + 1} / ${matchQuestions.length}`;
+            document.getElementById('match-hint-median').innerText = `${cData.medianAge}세`;
+            document.getElementById('match-hint-tfr').innerText = `${cData.tfr}명`;
+            document.getElementById('match-hint-youth').innerText = cData.youthRatio;
+
+            const choicesContainer = document.getElementById('matching-choices');
+            choicesContainer.innerHTML = q.choices.map((choice, idx) => `
+                <button onclick="checkMatchingAnswer(${idx})" class="w-full p-4 rounded-xl border-2 border-slate-200 hover:border-amber-500 hover:bg-amber-50 text-left font-bold text-slate-800 transition">
+                    ${choice}
+                </button>
+            `).join('');
+
+            document.getElementById('matching-feedback').classList.add('hidden');
+            drawMatchingCanvas();
+        }
+
+        function drawMatchingCanvas() {
+            const canvas = document.getElementById('matchingCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const width = rect.width;
+            const height = rect.height;
+            const q = matchQuestions[matchStage];
+            const data = countryData[q.countryKey];
+
+            ctx.clearRect(0, 0, width, height);
+
+            const barsCount = 10;
+            const centerY = height - 20;
+            const barHeight = (height - 40) / barsCount;
+            const centerX = width / 2;
+
+            for (let i = 0; i < barsCount; i++) {
+                const y = centerY - (i + 1) * barHeight;
+                const mWidth = (data.males[i] / 1.0) * (centerX - 40);
+                const fWidth = (data.females[i] / 1.0) * (centerX - 40);
+
+                ctx.fillStyle = "#f59e0b";
+                ctx.fillRect(centerX - mWidth, y + 2, mWidth, barHeight - 4);
+                ctx.fillStyle = "#3b82f6";
+                ctx.fillRect(centerX, y + 2, fWidth, barHeight - 4);
+            }
+        }
+
+        function checkMatchingAnswer(idx) {
+            const q = matchQuestions[matchStage];
+            const feedback = document.getElementById('matching-feedback');
+            const txt = document.getElementById('matching-feedback-txt');
+
+            feedback.classList.remove('hidden');
+            if (idx === q.correctIdx) {
+                feedback.className = "mt-4 p-4 rounded-xl text-xs space-y-2 bg-emerald-100 text-emerald-900 border border-emerald-300";
+                txt.innerHTML = `<b>정답입니다!</b> 정답은 [${q.type}]입니다. ${countryData[q.countryKey].desc}`;
+            } else {
+                feedback.className = "mt-4 p-4 rounded-xl text-xs space-y-2 bg-rose-100 text-rose-900 border border-rose-300";
+                txt.innerHTML = `<b>오답입니다!</b> 정답은 [${q.type}]입니다. 다시 확인해보세요.`;
+            }
+        }
+
+        function nextMatchingStage() {
+            matchStage++;
+            loadMatchingStage();
+        }
+
+        /* ================= PAGE 5: TFR CONTINENT COMPARISON ================= */
+        function drawTFRChart() {
+            const canvas = document.getElementById('tfrCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const width = rect.width;
+            const height = rect.height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const continents = ["세계", "아프리카", "아시아", "유럽", "라틴", "앵글로", "오세아니아"];
+            const tfr1971 = [4.68, 6.71, 5.35, 2.27, 5.09, 2.25, 3.59];
+            const tfr2021 = [2.32, 4.31, 1.94, 1.48, 1.86, 1.64, 2.15];
+
+            const paddingLeft = 40;
+            const paddingBottom = 40;
+            const chartWidth = width - paddingLeft - 20;
+            const chartHeight = height - paddingBottom - 30;
+            const groupWidth = chartWidth / continents.length;
+            const barW = groupWidth * 0.32;
+
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.fillStyle = "#94a3b8";
+            ctx.font = "10px Noto Sans KR";
+            for (let v = 0; v <= 7; v += 2) {
+                const y = height - paddingBottom - (v / 7) * chartHeight;
+                ctx.beginPath();
+                ctx.moveTo(paddingLeft, y);
+                ctx.lineTo(width - 20, y);
+                ctx.stroke();
+                ctx.fillText(`${v}명`, 10, y + 3);
+            }
+
+            for (let i = 0; i < continents.length; i++) {
+                const groupX = paddingLeft + i * groupWidth + groupWidth * 0.1;
+
+                // 1971 Bar
+                const h71 = (tfr1971[i] / 7) * chartHeight;
+                const y71 = height - paddingBottom - h71;
+                ctx.fillStyle = "#94a3b8";
+                ctx.fillRect(groupX, y71, barW, h71);
+
+                ctx.fillStyle = "#475569";
+                ctx.font = "9px Noto Sans KR";
+                ctx.textAlign = "center";
+                ctx.fillText(tfr1971[i], groupX + barW / 2, y71 - 4);
+
+                // 2021 Bar
+                const h21 = (tfr2021[i] / 7) * chartHeight;
+                const y21 = height - paddingBottom - h21;
+                ctx.fillStyle = "#2563eb";
+                ctx.fillRect(groupX + barW + 4, y21, barW, h21);
+
+                ctx.fillStyle = "#1e40af";
+                ctx.font = "bold 9px Noto Sans KR";
+                ctx.fillText(tfr2021[i], groupX + barW * 1.5 + 4, y21 - 4);
+
+                // Continent Label
+                ctx.fillStyle = "#334155";
+                ctx.font = "bold 11px Noto Sans KR";
+                ctx.fillText(continents[i], groupX + barW, height - 15);
+            }
+
+            // Legend
+            ctx.fillStyle = "#94a3b8";
+            ctx.fillRect(width - 130, 10, 12, 12);
+            ctx.fillStyle = "#475569";
+            ctx.font = "10px Noto Sans KR";
+            ctx.textAlign = "left";
+            ctx.fillText("1971년", width - 112, 20);
+
+            ctx.fillStyle = "#2563eb";
+            ctx.fillRect(width - 70, 10, 12, 12);
+            ctx.fillStyle = "#1e40af";
+            ctx.fillText("2021년", width - 52, 20);
+        }
+    </script>
+</body>
+</html>
